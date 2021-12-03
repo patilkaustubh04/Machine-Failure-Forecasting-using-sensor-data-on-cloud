@@ -1,0 +1,32 @@
+function hereGet(e){
+  var nu = e.parameter.func;
+  if(nu == "addData"){
+    var stat = add_data(e);
+    if(stat == 1){
+      var result = {
+        status: true
+      };
+    
+    return ContentService.createTextOutput(JSON.stringify(result))
+    .setMimeType(ContentService.MimeType.JSON);
+    }
+  }
+}
+
+function add_data(e){
+  var sheet = SpreadsheetApp.openByUrl('https://docs.google.com/spreadsheets/d/1NRBbOQk2AE9MhjJyvQsE3bMNdYRqnFqPKp5mIV9JPL8/edit#gid=0');
+  
+  var lastVal = sheet.getRange("A1:A").getValues();
+  var id = lastVal.filter(String).length;
+  
+  var CurrentDate = new Date() ;  
+  var Time_ = Utilities.formatDate(CurrentDate, "IST", "HH");
+ 
+  sheet.appendRow([id,Time_,e.parameter.val1, e.parameter.val2, e.parameter.val3, e.parameter.val4, e.parameter.val5,e.parameter.val6]);
+
+  var result = {
+    status: true
+  };
+
+  return 1;
+}
